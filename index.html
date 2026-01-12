@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lingofyra | Smart Dictionary & Translator</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav>
+        <div class="nav-container">
+            <div class="logo" onclick="location.reload()" style="cursor: pointer;">
+                <span class="material-icons-round">spellcheck</span>
+                <span>Lingofyra</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#dictionary" class="active">Dictionary</a></li>
+                <li><a href="#translator">Translator</a></li>
+                <li><a href="tense_book.html">Tense Book</a></li>
+                <li><a href="idioms.html">Idioms</a></li>
+                <li class="dropdown">
+                    <div class="dropdown-trigger" id="nav-dropdown-btn">
+                        More <span class="material-icons-round">expand_more</span>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a href="mock_test.html">AI Mock Test</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#lessons">Learn More</a></li>
+                    </ul>
+                </li>
+                <li class="nav-login-item">
+                    <button class="btn-theme-toggle" onclick="toggleTheme()" id="theme-toggle">
+                        <span class="material-icons-round theme-toggle-icon">dark_mode</span>
+                    </button>
+                    <a href="login.html" class="btn-login-nav" id="login-nav-btn">Login</a>
+                </li>
+            </ul>
+            <div class="voice-selector">
+                <span class="material-icons-round">record_voice_over</span>
+                <select id="voice-select">
+                    <option value="">Loading Voices...</option>
+                </select>
+            </div>
+            <button class="btn-primary-sm" onclick="document.getElementById('dictionary').scrollIntoView()">Search
+                Now</button>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero secondary-hero">
+            <div class="hero-layout">
+                <div class="hero-content">
+                    <h1>Universal <span class="highlight">Dictionary</span> & Hub</h1>
+                    <p>Lookup any word, translate across 50+ languages, and master spoken English in one luxury
+                        platform.
+                    </p>
+                </div>
+                <div class="hero-visual">
+                    <img src="hero-illustration.jpg" alt="AI Language Learning" class="float-img">
+
+                    <!-- Sliding Card Stack (Professional) -->
+                    <div class="card-stack">
+                        <div class="stack-card">
+                            <span class="material-icons-round">auto_stories</span>
+                            <span>Tenses</span>
+                        </div>
+                        <div class="stack-card">
+                            <span class="material-icons-round">spellcheck</span>
+                            <span>Grammar</span>
+                        </div>
+                        <div class="stack-card">
+                            <span class="material-icons-round">style</span>
+                            <span>Vocab</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dictionary Section -->
+        <section id="dictionary" class="dictionary-section">
+            <div class="search-container card">
+                <div class="search-wrapper">
+                    <span class="material-icons-round">search</span>
+                    <input type="text" id="dict-input" placeholder="Search for any word (e.g., 'Adventure')...">
+                    <select id="dict-lang-select" class="lang-pill">
+                        <option value="hi">Hindi</option>
+                        <option value="mr">Marathi</option>
+                        <option value="gu">Gujarati</option>
+                        <option value="ta">Tamil</option>
+                        <option value="te">Telugu</option>
+                        <option value="bn">Bengali</option>
+                        <option value="pa">Punjabi</option>
+                        <option value="or">Odia</option>
+                        <option value="sa">Sanskrit</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="it">Italian</option>
+                    </select>
+                    <button id="dict-search-btn" class="btn-primary">Search</button>
+                </div>
+            </div>
+
+            <div id="dict-result" class="dict-result card hidden">
+                <div class="word-header">
+                    <div>
+                        <h2 id="res-word">Adventure</h2>
+                        <div style="display: flex; gap: 10px; align-items: center;">
+                            <span id="res-phonetic">/ədˈven.tʃər/</span>
+                            <span id="res-short-meaning" class="tag"
+                                style="background: var(--success); color: white; border: none; font-size: 0.8rem;">Short
+                                Meaning</span>
+                        </div>
+                    </div>
+                    <button class="btn-icon circle-btn"
+                        onclick="speakText(document.getElementById('res-word').textContent)">
+                        <span class="material-icons-round">volume_up</span>
+                    </button>
+                </div>
+
+                <div class="res-content">
+                    <div id="dict-trans-section" class="res-section trans-meaning hidden">
+                        <span class="part-of-speech" id="res-trans-label"
+                            style="background: rgba(255, 121, 198, 0.2); color: #ff79c6;">Translated Meaning</span>
+                        <p class="definition" id="res-trans-meaning"
+                            style="font-family: 'Quicksand', sans-serif; font-weight: 500; font-size: 1.5rem;"></p>
+                    </div>
+                    <div id="dict-example-section" class="res-section hidden"
+                        style="background: rgba(99, 102, 241, 0.05); border: 1px dashed rgba(99, 102, 241, 0.3); margin-bottom: 30px; padding: 20px; border-radius: 15px;">
+                        <span class="part-of-speech"
+                            style="background: rgba(99, 102, 241, 0.2); color: var(--primary-light);">Simple
+                            Usage</span>
+                        <p id="res-eng-example"
+                            style="font-size: 1.1rem; font-weight: 600; margin-bottom: 5px; color: white;"></p>
+                        <p id="res-trans-example"
+                            style="font-size: 1rem; color: var(--text-muted); font-style: italic;"></p>
+                    </div>
+                    <div id="english-definition-content">
+                        <!-- English content injected here -->
+                    </div>
+                </div>
+
+                <div class="res-footer">
+                    <div class="synonyms-box">
+                        <span>Synonyms:</span>
+                        <div id="res-synonyms" class="tags">
+                            <span class="tag">Exploit</span>
+                            <span class="tag">Escapade</span>
+                            <span class="tag">Journey</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Translator Section (Existing refined) -->
+        <section id="translator" class="translator-section">
+            <div class="section-header">
+                <h2>Smart Translator</h2>
+                <p>Global communication at your fingertips</p>
+            </div>
+            <div class="translator-card card">
+                <div class="trans-controls">
+                    <div class="lang-box">
+                        <select id="from-lang">
+                            <option value="en">English</option>
+                            <option value="hi">Hindi</option>
+                            <option value="mr">Marathi</option>
+                            <option value="gu">Gujarati</option>
+                            <option value="ta">Tamil</option>
+                            <option value="te">Telugu</option>
+                            <option value="bn">Bengali</option>
+                            <option value="pa">Punjabi</option>
+                            <option value="or">Odia</option>
+                            <option value="sa">Sanskrit</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh-CN">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="ru">Russian</option>
+                            <option value="it">Italian</option>
+                        </select>
+                    </div>
+                    <button id="swap-langs" class="btn-icon"><span
+                            class="material-icons-round">swap_horiz</span></button>
+                    <div class="lang-box">
+                        <select id="to-lang">
+                            <option value="hi">Hindi</option>
+                            <option value="en">English</option>
+                            <option value="mr">Marathi</option>
+                            <option value="gu">Gujarati</option>
+                            <option value="ta">Tamil</option>
+                            <option value="te">Telugu</option>
+                            <option value="bn">Bengali</option>
+                            <option value="pa">Punjabi</option>
+                            <option value="or">Odia</option>
+                            <option value="sa">Sanskrit</option>
+                            <option value="es">Spanish</option>
+                            <option value="fr">French</option>
+                            <option value="de">German</option>
+                            <option value="ja">Japanese</option>
+                            <option value="ko">Korean</option>
+                            <option value="zh-CN">Chinese</option>
+                            <option value="ar">Arabic</option>
+                            <option value="ru">Russian</option>
+                            <option value="it">Italian</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="trans-inputs">
+                    <div class="input-group">
+                        <textarea id="input-text" placeholder="Type something to translate..."></textarea>
+                        <div class="input-actions search-actions">
+                            <button class="btn-icon"
+                                onclick="speakText(document.getElementById('input-text').value)"><span
+                                    class="material-icons-round">volume_up</span></button>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <textarea id="output-text" placeholder="Translation will appear here..." readonly></textarea>
+                        <div class="input-actions search-actions">
+                            <button id="copy-trans" class="btn-icon"><span
+                                    class="material-icons-round">content_copy</span></button>
+                            <button class="btn-icon" onclick="speakTranslation()"><span
+                                    class="material-icons-round">volume_up</span></button>
+                        </div>
+                    </div>
+                </div>
+                <button id="translate-btn" class="btn-primary" style="width: 100%; margin-top: 20px;">Translate Now Now
+                    Now</button>
+            </div>
+        </section>
+
+        <!-- Tense Master Book Preview Section -->
+        <section id="tense-book" class="tense-section">
+            <div class="section-header">
+                <h2>Tense Master Book 📖</h2>
+                <p>Master the foundation of English grammar</p>
+            </div>
+
+            <div class="book-container card" style="text-align: center; padding: 60px 20px;">
+                <span class="material-icons-round"
+                    style="font-size: 5rem; color: var(--primary-light); margin-bottom: 20px;">menu_book</span>
+                <h3>Deep Dive into Past, Present & Future</h3>
+                <p style="max-width: 600px; margin: 15px auto 30px; color: var(--text-muted);">
+                    Explore our comprehensive guide with over 50+ bilingual examples, clear grammar rules, and audio
+                    pronunciations.
+                </p>
+                <a href="tense_book.html" class="btn-primary" style="text-decoration: none; display: inline-block;">Open
+                    Full Book</a>
+            </div>
+        </section>
+
+        <!-- AI Mock Test Section -->
+        <section id="mock-test" class="features" style="margin-top: 80px;">
+            <div class="section-header">
+                <h2>AI Mock Test 🎯</h2>
+                <p>Test your skills and track your progress</p>
+            </div>
+
+            <div class="book-container card"
+                style="text-align: center; padding: 60px 20px; background: linear-gradient(145deg, rgba(255,121,198,0.1), rgba(189,147,249,0.1)); border: 1px solid rgba(255,121,198,0.2);">
+                <span class="material-icons-round"
+                    style="font-size: 5rem; color: #ff79c6; margin-bottom: 20px;">quiz</span>
+                <h3>Ready to Challenge Yourself?</h3>
+                <p style="max-width: 600px; margin: 15px auto 30px; color: var(--text-muted);">
+                    Take a comprehensive mock test covering grammar, tenses, and real-world conversations. Get instant
+                    AI-powered feedback.
+                </p>
+                <a href="mock_test.html" class="btn-primary"
+                    style="text-decoration: none; display: inline-block; background: #ff79c6;">Start Mock Test</a>
+            </div>
+        </section>
+
+        <!-- Spoken Lessons (Existing) -->
+        <section id="lessons" class="features">
+            <div class="section-header">
+                <h2>Bonus: Spoken English Lessons</h2>
+                <p>Practice with real-world scenarios</p>
+            </div>
+            <div class="pathway-grid">
+                <div class="path-card card" onclick="loadCategory('alphabet')">
+                    <div class="path-icon beginner">ABC</div>
+                    <h3>Alphabet & Sounds</h3>
+                    <p>Basic sounds, vowels, and phonetics for beginners.</p>
+                </div>
+                <div class="path-card card" onclick="loadCategory('pronunciation')">
+                    <div class="path-icon intermediate">A1</div>
+                    <h3>Pronunciation</h3>
+                    <p>Accent training, word stress, and common greetings.</p>
+                </div>
+                <div class="path-card card" onclick="loadCategory('conversations')">
+                    <div class="path-icon advanced">B2</div>
+                    <h3>Daily Use Sentences</h3>
+                    <p>Self-intro, shopping, restaurant, and help phrases.</p>
+                </div>
+                <div class="path-card card" onclick="window.location.href='idioms.html'">
+                    <div class="path-icon intermediate" style="color: #bd93f9;">🎨</div>
+                    <h3>Idioms & Phrases</h3>
+                    <p>Master native expressions to sound more natural.</p>
+                </div>
+                <div class="path-card card" onclick="window.location.href='mock_test.html'">
+                    <div class="path-icon beginner" style="color: #ff79c6;">🎯</div>
+                    <h3>AI Mock Test</h3>
+                    <p>Validate your learning with a full proficiency quiz.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Detailed Lesson Overlay -->
+    <div id="lesson-overlay" class="overlay hidden">
+        <div class="overlay-content">
+            <button class="close-overlay" onclick="closeOverlay()"><span class="material-icons-round">arrow_back</span>
+                Back to Home</button>
+            <div id="lesson-details">
+                <!-- Content will be injected here -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content"
+            style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 40px; padding: 60px 20px;">
+            <div style="flex: 1; min-width: 250px;">
+                <div class="logo" style="margin-bottom: 20px;">
+                    <span class="material-icons-round">spellcheck</span>
+                    <span>Lingofyra</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">The world's most advanced
+                    AI-powered English learning platform. Master grammar, expand vocabulary, and speak with confidence.
+                </p>
+            </div>
+
+            <div style="flex: 1; min-width: 150px;">
+                <h4 style="margin-bottom: 20px; color: #ff79c6;">Quick Links</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><a href="tense_book.html"
+                            style="text-decoration: none; color: var(--text-muted);">Tense Master Book</a></li>
+                    <li style="margin-bottom: 10px;"><a href="idioms.html"
+                            style="text-decoration: none; color: var(--text-muted);">Idioms Library</a></li>
+                    <li style="margin-bottom: 10px;"><a href="mock_test.html"
+                            style="text-decoration: none; color: var(--text-muted);">AI Mock Test</a></li>
+                </ul>
+            </div>
+
+            <div style="flex: 1; min-width: 150px;">
+                <h4 style="margin-bottom: 20px; color: #bd93f9;">Company</h4>
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;"><a href="about.html"
+                            style="text-decoration: none; color: var(--text-muted);">About Us</a></li>
+                    <li style="margin-bottom: 10px;"><a href="contact.html"
+                            style="text-decoration: none; color: var(--text-muted);">Contact Us</a></li>
+                    <li id="db-explorer-item" style="margin-bottom: 10px; display: none;"><a
+                            href="database_explorer.html"
+                            style="text-decoration: none; color: var(--text-muted); font-size: 0.7rem; opacity: 0.5;">[
+                            Database Explorer ]</a></li>
+                </ul>
+            </div>
+
+            <div style="flex: 1; min-width: 200px;">
+                <h4 style="margin-bottom: 20px; color: #50fa7b;">Connect</h4>
+                <div class="socials" style="display: flex; gap: 15px; align-items: center;">
+                    <button class="btn-icon"><span class="material-icons-round">public</span></button>
+                    <button class="btn-icon"><span class="material-icons-round">language</span></button>
+                    <button class="btn-icon" onclick="toggleTheme()" title="Toggle Night Mode">
+                        <span class="material-icons-round theme-toggle-icon">dark_mode</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div
+            style="text-align: center; padding: 30px; border-top: 1px solid rgba(255,255,255,0.05); color: var(--text-muted); font-size: 0.8rem;">
+            Lingofyra &copy; 2026 | Developed by <b>Prabir</b>
+        </div>
+    </footer>
+
+    <!-- Feedback Toggle -->
+    <div class="feedback-toggle" onclick="toggleFeedback()" id="feedback-trigger">
+        <span class="material-icons-round">rate_review</span>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="feedback-modal" id="feedback-modal">
+        <h3><span class="material-icons-round">emoji_objects</span> Feedback</h3>
+        <p>How's your learning experience so far?</p>
+
+        <div class="rating-group">
+            <button class="rating-btn" onclick="setRating(1)">😞</button>
+            <button class="rating-btn" onclick="setRating(2)">😐</button>
+            <button class="rating-btn" onclick="setRating(3)">😊</button>
+            <button class="rating-btn" onclick="setRating(4)">🤩</button>
+        </div>
+
+        <textarea class="feedback-textarea" id="feedback-text"
+            placeholder="Share your thoughts or report a bug..."></textarea>
+
+        <button class="btn-submit-feedback" onclick="submitFeedback()">
+            <span>Submit Feedback</span>
+            <span class="material-icons-round">send</span>
+        </button>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="theme-manager.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

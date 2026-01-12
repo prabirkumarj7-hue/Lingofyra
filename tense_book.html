@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tense Master Book | Lingofyra</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <script src="database.js"></script>
+    <script>
+        // Gatekeeper: Check for active session before rendering
+        if (!localStorage.getItem('lingofyra_user')) {
+            window.location.href = 'login.html?redirect=tense_book.html';
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        .book-page-wrapper {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .book-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .book-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, var(--primary-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="book-page-wrapper">
+        <div class="back-nav" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <a href="index.html" class="btn-back">
+                    <span class="material-icons-round">arrow_back</span> Back to Home
+                </a>
+                <button class="btn-theme-toggle" onclick="toggleTheme()" style="margin: 0;">
+                    <span class="material-icons-round theme-toggle-icon">dark_mode</span>
+                </button>
+            </div>
+            <button class="btn-primary" onclick="downloadTensePDF()"
+                style="display: inline-flex; align-items: center; gap: 10px; background: #50fa7b; color: #1e1e2e; border: none;">
+                <span class="material-icons-round">picture_as_pdf</span> Download Full Tense PDF
+            </button>
+        </div>
+
+        <header class="book-hero">
+            <h1>Tense Master Book 📖</h1>
+            <p>Your complete guide to mastering English timeframes with bilingual examples.</p>
+        </header>
+
+        <section id="tense-book" class="tense-section" style="margin-top: 0;">
+            <div
+                style="display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                <div class="search-wrapper"
+                    style="padding: 10px 20px; border-radius: 50px; background: rgba(255,255,255,0.05); flex: 1; max-width: 300px;">
+                    <span class="material-icons-round"
+                        style="font-size: 1.2rem; color: var(--primary-light);">search</span>
+                    <input type="text" id="tense-search" placeholder="Search verbs..."
+                        style="background: none; border: none; color: white; padding-left: 10px; outline: none; width: 100%;"
+                        oninput="filterTenseContent(this.value)">
+                </div>
+                <div class="search-wrapper"
+                    style="padding: 10px 20px; border-radius: 50px; background: rgba(255,255,255,0.05);">
+                    <span class="material-icons-round"
+                        style="font-size: 1.2rem; color: var(--primary-light);">language</span>
+                    <select id="tense-lang-select" class="lang-pill"
+                        onchange="loadTense(document.querySelector('.tense-tab.active').textContent.toLowerCase().split(' ')[0])">
+                        <option value="en">English</option>
+                        <option value="hi">Hindi</option>
+                        <option value="mr">Marathi</option>
+                        <option value="gu">Gujarati</option>
+                        <option value="ta">Tamil</option>
+                        <option value="te">Telugu</option>
+                        <option value="bn">Bengali</option>
+                        <option value="pa">Punjabi</option>
+                        <option value="or">Odia</option>
+                        <option value="sa">Sanskrit</option>
+                        <option value="es">Spanish</option>
+                        <option value="fr">French</option>
+                        <option value="de">German</option>
+                        <option value="ja">Japanese</option>
+                        <option value="ko">Korean</option>
+                        <option value="it">Italian</option>
+                    </select>
+                </div>
+            </div>
+            <div class="book-container card">
+                <div class="book-tabs">
+                    <button class="tense-tab active" onclick="loadTense('past')">Past Tense</button>
+                    <button class="tense-tab" onclick="loadTense('present')">Present Tense</button>
+                    <button class="tense-tab" onclick="loadTense('future')">Future Tense</button>
+                    <button class="tense-tab" onclick="loadTense('verbs')">Verb Forms (V1, V2, V3)</button>
+                </div>
+
+                <div id="tense-content" class="tense-content">
+                    <!-- Tense data will be injected here -->
+                </div>
+            </div>
+        </section>
+
+        <section id="tips" class="features" style="margin-top: 80px;">
+            <div class="section-header">
+                <h2>Quick Learning Tips</h2>
+            </div>
+            <div class="pathway-grid">
+                <div class="path-card card">
+                    <div class="path-icon beginner">💡</div>
+                    <h3>Practice Daily</h3>
+                    <p>Try making 5 sentences for each tense before you sleep.</p>
+                </div>
+                <div class="path-card card">
+                    <div class="path-icon intermediate">🗣️</div>
+                    <h3>Speak Aloud</h3>
+                    <p>Use the audio button to match your pronunciation.</p>
+                </div>
+                <div class="path-card card">
+                    <div class="path-icon advanced">✍️</div>
+                    <h3>Write & Verify</h3>
+                    <p>Use our Translator to check if your sentence is correct.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer style="margin-top: 100px;">
+        <div class="footer-content">
+            <p>Lingofyra &copy; 2026 | Tense Master Edition</p>
+        </div>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="theme-manager.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Ensure present tense is loaded when this specific page opens
+        document.addEventListener('DOMContentLoaded', () => {
+            if (typeof loadTense === 'function') {
+                loadTense('past');
+            }
+        });
+    </script>
+</body>
+
+</html>

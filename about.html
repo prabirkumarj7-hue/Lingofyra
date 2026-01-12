@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Lingofyra</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        .about-wrapper {
+            max-width: 900px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .about-hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .about-hero h1 {
+            font-size: 4rem;
+            background: linear-gradient(to right, #ff79c6, #bd93f9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .about-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 50px;
+            margin-bottom: 40px;
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .vision-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 30px;
+            border-radius: 20px;
+            transition: 0.3s;
+        }
+
+        .vision-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-10px);
+        }
+
+        .vision-item span {
+            font-size: 3rem;
+            color: #ff79c6;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .team-section {
+            text-align: center;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2" style="background: rgba(189, 147, 249, 0.2);"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="about-wrapper">
+        <div class="back-nav">
+            <a href="index.html"
+                style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; background: #50fa7b; color: #1e1e2e; padding: 10px 20px; border-radius: 50px; font-weight: 600; transition: 0.3s;">
+                <span class="material-icons-round">arrow_back</span> Back to Home
+            </a>
+        </div>
+
+        <header class="about-hero">
+            <h1>Our Story ✨</h1>
+            <p style="font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin: 0 auto;">Empowering the
+                next generation of global communicators through AI-driven education.</p>
+        </header>
+
+        <div class="about-card">
+            <h2 style="color: #bd93f9; margin-bottom: 25px;">What is Lingofyra?</h2>
+            <p style="font-size: 1.1rem; line-height: 1.8; color: var(--text-muted);">
+                Lingofyra was born out of a simple vision: to make high-quality English language learning accessible,
+                interactive, and intelligent. We believe that language is the key to unlocking global opportunities, and
+                we leverage state-of-the-art AI technology to bridge the gap between learning and fluency.
+            </p>
+
+            <div class="vision-grid">
+                <div class="vision-item">
+                    <span class="material-icons-round">psychology</span>
+                    <h3>AI Learning</h3>
+                    <p>Personalized paths that adapt to your unique pace and learning style.</p>
+                </div>
+                <div class="vision-item">
+                    <span class="material-icons-round">translate</span>
+                    <h3>Multilingual</h3>
+                    <p>Support for over 50+ languages to help you understand better.</p>
+                </div>
+                <div class="vision-item">
+                    <span class="material-icons-round">public</span>
+                    <h3>Global Access</h3>
+                    <p>A free-to-use platform designed for learners across the entire world.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <h2 style="margin-bottom: 10px;">The Innovation Hub</h2>
+            <p style="color: var(--text-muted);">Crafted with passion by the Lingofyra Dev Team.</p>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idioms & Phrases | Lingofyra</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        .idiom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .idiom-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .idiom-card:hover {
+            transform: translateY(-5px);
+            border-color: #bd93f9;
+            background: rgba(189, 147, 249, 0.05);
+        }
+
+        .idiom-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #bd93f9;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .idiom-meaning {
+            font-size: 1rem;
+            color: #fff;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .idiom-example {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border-left: 3px solid #bd93f9;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 40px auto;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .idiom-search-bar {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 12px 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .idiom-search-bar input {
+            background: none;
+            border: none;
+            color: white;
+            width: 100%;
+            outline: none;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1" style="background: rgba(189, 147, 249, 0.2);"></div>
+        <div class="blob blob-2" style="background: rgba(255, 121, 198, 0.1);"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header style="margin-bottom: 50px;">
+            <div class="back-nav" style="display: flex; gap: 15px; align-items: center;">
+                <a href="index.html" class="btn-back">
+                    <span class="material-icons-round">arrow_back</span> Back to Home
+                </a>
+                <button class="btn-theme-toggle" onclick="toggleTheme()" style="margin: 0;">
+                    <span class="material-icons-round theme-toggle-icon">dark_mode</span>
+                </button>
+            </div>
+            <h1 style="text-align: center; font-size: 3.5rem; margin-top: 20px;">Idioms & Phrases 🎨</h1>
+            <p style="text-align: center; color: var(--text-muted);">Master native English expressions with meanings and
+                examples.</p>
+        </header>
+
+        <div class="search-container">
+            <div class="idiom-search-bar">
+                <span class="material-icons-round" style="color: #bd93f9;">search</span>
+                <input type="text" id="idiom-search" placeholder="Search for an idiom (e.g. cake, moon)..."
+                    oninput="filterIdioms()">
+            </div>
+            <div class="search-wrapper"
+                style="padding: 10px 20px; border-radius: 50px; background: rgba(255,255,255,0.05); display: flex; align-items: center; gap: 10px;">
+                <span class="material-icons-round" style="color: #bd93f9;">language</span>
+                <select id="idiom-lang-select" class="lang-pill" onchange="loadIdioms()"
+                    style="background: none; border: none; color: white; outline: none;">
+                    <option value="hi">Hindi</option>
+                    <option value="mr">Marathi</option>
+                    <option value="gu">Gujarati</option>
+                    <option value="ta">Tamil</option>
+                    <option value="te">Telugu</option>
+                    <option value="bn">Bengali</option>
+                    <option value="pa">Punjabi</option>
+                    <option value="or">Odia</option>
+                    <option value="sa">Sanskrit</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="ja">Japanese</option>
+                    <option value="ko">Korean</option>
+                    <option value="it">Italian</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="idiom-content" class="idiom-grid">
+            <!-- Idioms will be injected here -->
+        </div>
+    </main>
+
+    <script src="database.js"></script>
+    <script src="theme-manager.js"></script>
+    <script src="script.js"></script>
+    <script>
+        const idiomData = [
+            { phrase: "Piece of cake", meaning: "Something very easy to do.", example: "The math test was a piece of cake for him." },
+            { phrase: "Once in a blue moon", meaning: "Very rarely.", example: "I go to the cinema once in a blue moon." },
+            { phrase: "Under the weather", meaning: "Feeling sick.", example: "I'm feeling a bit under the weather today." },
+            { phrase: "Break a leg", meaning: "Good luck (usually for a performance).", example: "Break a leg at your recital tonight!" },
+            { phrase: "Cost an arm and a leg", meaning: "Very expensive.", example: "This new car cost an arm and a leg." },
+            { phrase: "Let the cat out of the bag", meaning: "Reveal a secret accidentally.", example: "I let the cat out of the bag about the surprise party." },
+            { phrase: "Hit the nail on the head", meaning: "To be exactly right about something.", example: "You hit the nail on the head with that analysis." },
+            { phrase: "Kill two birds with one stone", meaning: "Accomplish two things at once.", example: "I can kill two birds with one stone by walking the dog while I talk to you." },
+            { phrase: "Bite off more than you can chew", meaning: "Take on a task that is too big.", example: "Don't bite off more than you can chew with that new project." },
+            { phrase: "Burn the midnight oil", meaning: "To stay up late working or studying.", example: "I have to burn the midnight oil to finish this report." },
+            { phrase: "Cry over spilt milk", meaning: "Complaining about a loss from the past.", example: "It's no use crying over spilt milk; what's done is done." },
+            { phrase: "The ball is in your court", meaning: "It is up to you to take the next step.", example: "I've made my offer, now the ball is in your court." },
+            { phrase: "Steal someone's thunder", meaning: "Take credit for someone else's work.", example: "She stole my thunder by announcing her engagement at my wedding." },
+            { phrase: "See eye to eye", meaning: "To agree with someone.", example: "My sister and I don't always see eye to eye." },
+            { phrase: "Beat around the bush", meaning: "Avoid saying what you mean directly.", example: "Stop beating around the bush and tell me what happened!" },
+            { phrase: "A blessing in disguise", meaning: "A good thing that seemed bad at first.", example: "Losing that job was a blessing in disguise; I found a much better one." },
+            { phrase: "Add insult to injury", meaning: "To make a bad situation even worse.", example: "They fired him, and to add insult to injury, they refused to pay his last week." },
+            { phrase: "Barking up the wrong tree", meaning: "Looking in the wrong place or accusing the wrong person.", example: "If you think I took your phone, you're barking up the wrong tree." },
+            { phrase: "Better late than never", meaning: "It's better to arrive or do something late than not at all.", example: "I finished the assignment two days late, but better late than never." },
+            { phrase: "Bite the bullet", meaning: "To get something over with because it is inevitable.", example: "I hate going to the dentist, but I'll just have to bite the bullet." },
+            { phrase: "Break the ice", meaning: "To start a conversation or make people feel comfortable.", example: "He told a joke to break the ice at the meeting." },
+            { phrase: "Call it a day", meaning: "To stop working on something.", example: "We've been working for ten hours; let's call it a day." },
+            { phrase: "Cutting corners", meaning: "Doing something poorly to save time or money.", example: "The builder cut corners on the foundation, and now the house is cracking." },
+            { phrase: "Easy does it", meaning: "Slow down or be careful.", example: "Easy does it! That vase is very fragile." },
+            { phrase: "Get out of hand", meaning: "To become difficult to control.", example: "The party got out of hand when too many people showed up." },
+            { phrase: "Get something out of your system", meaning: "To do something you've wanted to do so you can move on.", example: "I went skydiving just to get it out of my system." },
+            { phrase: "Get your act together", meaning: "To work better or more effectively.", example: "You need to get your act together if you want to pass this course." },
+            { phrase: "Give someone the benefit of the doubt", meaning: "To believe someone without proof.", example: "I'll give him the benefit of the doubt and assume he's telling the truth." },
+            { phrase: "Go back to the drawing board", meaning: "To start over from the beginning.", example: "Our plan failed, so we have to go back to the drawing board." },
+            { phrase: "Hang in there", meaning: "Don't give up.", example: "I know things are tough right now, but hang in there." },
+            { phrase: "Hit the sack", meaning: "To go to sleep.", example: "I'm exhausted; I'm going to hit the sack." },
+            { phrase: "It's not rocket science", meaning: "It's not complicated.", example: "Using this software is not rocket science; you just follow the instructions." },
+            { phrase: "Jump the gun", meaning: "To start something too early.", example: "Don't jump the gun; wait until the official announcement." },
+            { phrase: "Keep your chin up", meaning: "Stay positive in a difficult situation.", example: "Keep your chin up; things will get better soon." },
+            { phrase: "Make a long story short", meaning: "To skip the boring details and get to the point.", example: "To make a long story short, we missed the flight." },
+            { phrase: "Miss the boat", meaning: "To be too late to take advantage of an opportunity.", example: "I didn't invest in Bitcoin early, so I missed the boat." },
+            { phrase: "No pain, no gain", meaning: "You have to work hard to achieve something.", example: "I'm tired of exercising, but no pain, no gain!" },
+            { phrase: "On the ball", meaning: "To be alert and efficient.", example: "Our new manager is really on the ball." },
+            { phrase: "Pull someone's leg", meaning: "To joke with someone.", example: "Are you serious, or are you just pulling my leg?" },
+            { phrase: "Pull yourself together", meaning: "To calm down and behave normally.", example: "You need to pull yourself together and finish this interview." },
+            { phrase: "So far so good", meaning: "Things are going well up to this point.", example: "How's the new project? So far so good." },
+            { phrase: "Speak of the devil", meaning: "When the person you were talking about appears.", example: "Speak of the devil! We were just talking about your new job." },
+            { phrase: "That's the last straw", meaning: "The final problem that makes someone lose patience.", example: "He's late again? That's the last straw! He's fired." },
+            { phrase: "The best of both worlds", meaning: "A situation where you can enjoy the advantages of two different things.", example: "Living in the country but working in the city is the best of both worlds." },
+            { phrase: "Time flies when you're having fun", meaning: "Time seems to go faster when you are doing something enjoyable.", example: "I can't believe it's already 5 PM! Time flies when you're having fun." },
+            { phrase: "To make matters worse", meaning: "To make a bad situation even more difficult.", example: "It started raining, and to make matters worse, I forgot my umbrella." },
+            { phrase: "Under the weather", meaning: "Not feeling well.", example: "I won't be coming to the party; I'm feeling a bit under the weather." },
+            { phrase: "Wrap your head around something", meaning: "To understand something complicated.", example: "I just can't wrap my head around this new math formula." },
+            { phrase: "You can say that again", meaning: "To completely agree with someone.", example: "It's freezing today! You can say that again." },
+            { phrase: "Your guess is as good as mine", meaning: "I have no idea.", example: "When will the plane land? Your guess is as good as mine." },
+            { phrase: "A bird in the hand is worth two in the bush", meaning: "What you have is worth more than what you might get.", example: "I'll keep my current job rather than waiting for a better one; a bird in the hand is worth two in the bush." },
+            { phrase: "A penny for your thoughts", meaning: "Asking someone what they are thinking about.", example: "You've been quiet for a while; a penny for your thoughts?" },
+            { phrase: "Actions speak louder than words", meaning: "What someone does is more important than what they say.", example: "He keeps promising to help, but actions speak louder than words." },
+            { phrase: "Bite the dust", meaning: "To die or to fail.", example: "My old phone finally bit the dust." },
+            { phrase: "Break the bank", meaning: "To be very expensive.", example: "Don't worry, this dinner won't break the bank." },
+            { phrase: "A busy bee", meaning: "A very active and hardworking person.", example: "She's been a busy bee all morning, cleaning the house." },
+            { phrase: "A cold fish", meaning: "Someone who seems unfriendly and unemotional.", example: "He's a bit of a cold fish; it's hard to get to know him." },
+            { phrase: "A dark horse", meaning: "Someone with secret talents or a mysterious background.", example: "Nobody knew he could sing; he's quite a dark horse." },
+            { phrase: "A fish out of water", meaning: "Someone who in an uncomfortable or unfamiliar situation.", example: "I felt like a fish out of water at the formal gala." },
+            { phrase: "A heart of gold", meaning: "A very kind and generous person.", example: "She has a heart of gold and always helps those in need." },
+            { phrase: "A lone wolf", meaning: "Someone who prefers to be alone.", example: "He's a lone wolf and doesn't like working in teams." },
+            { phrase: "A party pooper", meaning: "Someone who ruins the fun at a social gathering.", example: "Don't be a party pooper, stay for one more song!" },
+            { phrase: "All ears", meaning: "Listening very carefully.", example: "Tell me what happened; I'm all ears!" },
+            { phrase: "Around the clock", meaning: "All day and all night.", example: "The rescue team worked around the clock to find survivors." },
+            { phrase: "At the eleventh hour", meaning: "At the last possible moment.", example: "He submitted his application at the eleventh hour." },
+            { phrase: "Back to back", meaning: "One after another.", example: "I have three meetings back to back this afternoon." },
+            { phrase: "Behind one's back", meaning: "Without someone's knowledge.", example: "It's not right to talk about people behind their back." },
+            { phrase: "Beyond a shadow of a doubt", meaning: "To be completely certain.", example: "He is innocent beyond a shadow of a doubt." },
+            { phrase: "Big mouth", meaning: "Someone who talks too much or reveals secrets.", example: "Watch out, he has a big mouth and might tell everyone." },
+            { phrase: "By all means", meaning: "Certainly or definitely.", example: "If you want to come along, by all means, join us!" },
+            { phrase: "By heart", meaning: "From memory.", example: "I learned the entire poem by heart." },
+            { phrase: "Call the shots", meaning: "To be the person in control.", example: "In this office, the manager calls the shots." },
+            { phrase: "Change of heart", meaning: "A change in opinion or feeling.", example: "He had a change of heart and decided to help us after all." },
+            { phrase: "Check it out", meaning: "To look at or investigate something.", example: "Have you seen the new cafe? Go check it out!" },
+            { phrase: "Climb the ladder", meaning: "To progress in one's career.", example: "She worked hard to climb the corporate ladder." },
+            { phrase: "Count on someone", meaning: "To depend or rely on someone.", example: "You can always count on your family in tough times." },
+            { phrase: "Cross your fingers", meaning: "To hope for good luck.", example: "Cross your fingers that we win the game today!" },
+            { phrase: "Day in and day out", meaning: "Every single day for a long period.", example: "He practices the piano day in and day out." },
+            { phrase: "Don't count your chickens before they hatch", meaning: "Don't assume success before it actually happens.", example: "The deal isn't signed yet, so don't count your chickens." },
+            { phrase: "Down to earth", meaning: "Practical and realistic person.", example: "Even though she's famous, she's very down to earth." },
+            { phrase: "Dress to kill", meaning: "To dress very elegantly to impress others.", example: "She showed up at the party dressed to kill." },
+            { phrase: "Drop a bombshell", meaning: "To announce shocking news.", example: "The CEO dropped a bombshell by resigning suddenly." },
+            { phrase: "Face the music", meaning: "To accept the consequences of one's actions.", example: "After failing the test, he had to face the music with his parents." },
+            { phrase: "Fed up with", meaning: "To be tired or annoyed by something.", example: "I'm fed up with the constant noise from the street." },
+            { phrase: "Feel like a million dollars", meaning: "To feel extremely healthy and happy.", example: "After my vacation, I feel like a million dollars." },
+            { phrase: "Fit as a fiddle", meaning: "To be in excellent physical health.", example: "My grandfather is 80 and still fit as a fiddle." },
+            { phrase: "Follow in someone's footsteps", meaning: "To do the same thing as someone else did before.", example: "He decided to follow in his father's footsteps and become a lawyer." },
+            { phrase: "Full of beans", meaning: "To be very energetic and lively.", example: "The kids are full of beans this morning!" },
+            { phrase: "Get cold feet", meaning: "To become nervous about a big decision.", example: "He got cold feet right before the wedding." },
+            { phrase: "Give someone the cold shoulder", meaning: "To intentionally ignore someone.", example: "She gave me the cold shoulder after our argument." },
+            { phrase: "Go Dutch", meaning: "To share the cost of a meal equally.", example: "Let's go Dutch on the dinner tonight." },
+            { phrase: "Go with the flow", meaning: "To be relaxed and accept things as they happen.", example: "I don't have a plan; I'll just go with the flow." },
+            { phrase: "Green with envy", meaning: "To be very jealous.", example: "He was green with envy when he saw my new bike." },
+            { phrase: "Head over heels", meaning: "To be deeply in love.", example: "They are head over heels in love with each other." },
+            { phrase: "High and dry", meaning: "To be left in a difficult situation without help.", example: "The company closed down and left its workers high and dry." },
+            { phrase: "In the long run", meaning: "Over a long period of time.", example: "It might be expensive now, but it will save money in the long run." },
+            { phrase: "In the same boat", meaning: "To be in the same difficult situation as others.", example: "We're all in the same boat during this crisis." },
+            { phrase: "It's a small world", meaning: "Encountering someone in an unexpected way.", example: "I saw my old teacher in New York; it's a small world!" },
+            { phrase: "Keep an eye on", meaning: "To watch something or someone carefully.", example: "Can you keep an eye on my bag while I go to the restroom?" },
+            { phrase: "Keep in touch", meaning: "To stay in contact with someone.", example: "Let's keep in touch after you move away." },
+            { phrase: "Learn the ropes", meaning: "To learn how to do a new job or task.", example: "It took me a few weeks to learn the ropes at my new office." },
+            { phrase: "Let by-gones be by-gones", meaning: "To forget past disagreements and move on.", example: "Let's let by-gones be by-gones and be friends again." },
+            { phrase: "Look on the bright side", meaning: "To stay optimistic.", example: "Look on the bright side, at least it didn't rain!" },
+            { phrase: "Make ends meet", meaning: "To have enough money to pay for basic expenses.", example: "They work two jobs just to make ends meet." },
+            { phrase: "Over the moon", meaning: "To be extremely happy.", example: "She was over the moon when she passed her exam." }
+        ];
+
+        let idiomLimit = 15;
+
+        async function getTranslation(text, targetLang) {
+            try {
+                const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=${targetLang}&dt=t&q=${encodeURIComponent(text)}`);
+                const json = await res.json();
+                return json[0].map(p => p[0]).join('');
+            } catch (e) { return text; }
+        }
+
+        async function loadIdioms() {
+            const content = document.getElementById('idiom-content');
+            const targetLang = document.getElementById('idiom-lang-select').value;
+
+            // Show spinning loader for the initial load or language change
+            if (idiomLimit === 15) {
+                content.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 50px;">
+                    <span class="material-icons-round" style="font-size: 3rem; animation: spin 2s linear infinite;">sync</span>
+                    <p>Preparing Idioms...</p>
+                </div>`;
+            }
+
+            const visibleIdioms = idiomData.slice(0, idiomLimit);
+            let html = '';
+            for (const item of visibleIdioms) {
+                const translatedMeaning = targetLang === 'en' ? item.meaning : await getTranslation(item.meaning, targetLang);
+                const translatedExample = targetLang === 'en' ? item.example : await getTranslation(item.example, targetLang);
+
+                html += `
+                    <div class="idiom-card">
+                        <div class="idiom-title">
+                            ${item.phrase}
+                            <button class="btn-icon" onclick="speakText('${item.phrase}. Meaning: ${item.meaning}')">
+                                <span class="material-icons-round">volume_up</span>
+                            </button>
+                        </div>
+                        <div class="idiom-meaning">${translatedMeaning}</div>
+                        <div class="idiom-example">
+                            <strong>Eg:</strong> ${item.example}<br>
+                            <span style="color: var(--primary-light); font-size: 0.85rem;">${translatedExample}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Append Load More Button if needed
+            if (idiomLimit < idiomData.length) {
+                html += `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 30px;">
+                        <button class="btn-secondary" onclick="loadMoreIdioms()">Load More Idioms (+15)</button>
+                    </div>
+                `;
+            }
+
+            content.innerHTML = html;
+        }
+
+        window.loadMoreIdioms = () => {
+            idiomLimit += 15;
+            loadIdioms();
+        };
+
+        function filterIdioms() {
+            const query = document.getElementById('idiom-search').value.toLowerCase();
+            const cards = document.querySelectorAll('.idiom-card');
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        }
+
+        window.speakText = (text) => {
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(text);
+            msg.rate = 0.9;
+            window.speechSynthesis.speak(msg);
+        };
+
+        // Initial Load
+        document.addEventListener('DOMContentLoaded', loadIdioms);
+    </script>
+
+    <style>
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</body>
+
+</html>

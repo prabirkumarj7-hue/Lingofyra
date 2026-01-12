@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Lingofyra</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 450px;
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .login-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 50px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s ease;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, #6366f1, #ff79c6);
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 35px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .brand-logo span:last-child {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .brand-logo .material-icons-round {
+            font-size: 2.5rem;
+            color: #6366f1;
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 35px;
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-white);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper .material-icons-round {
+            position: absolute;
+            left: 15px;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
+        .input-wrapper .toggle-pass {
+            position: absolute;
+            right: 15px;
+            left: auto;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: 0.3s;
+        }
+
+        .input-wrapper .toggle-pass:hover {
+            color: #6366f1;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 14px 15px 14px 45px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: 0.3s;
+            outline: none;
+        }
+
+        .input-wrapper input:focus {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.05);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            font-size: 0.85rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .remember-me input {
+            cursor: pointer;
+        }
+
+        .forgot-pass {
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #6366f1, #818cf8);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .divider:not(:empty)::before {
+            margin-right: 15px;
+        }
+
+        .divider:not(:empty)::after {
+            margin-left: 15px;
+        }
+
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .social-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .footer-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .footer-text a {
+            color: #ff79c6;
+            text-decoration: none;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"
+            style="background: rgba(99, 102, 241, 0.2); width: 500px; height: 500px; top: -10%; left: -10%;"></div>
+        <div class="blob blob-2"
+            style="background: rgba(255, 121, 198, 0.15); width: 400px; height: 400px; bottom: -5%; right: -5%;"></div>
+    </div>
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <button class="btn-theme-toggle" onclick="toggleTheme()" style="margin: 0;">
+                    <span class="material-icons-round theme-toggle-icon">dark_mode</span>
+                </button>
+            </div>
+            <a href="index.html" class="brand-logo">
+                <span class="material-icons-round">spellcheck</span>
+                <span>Lingofyra</span>
+            </a>
+
+            <!-- LOGIN VIEW -->
+            <div id="login-view">
+                <h1>Welcome Back! 👋</h1>
+                <p class="subtitle">Log in to continue your mastery journey.</p>
+
+                <form onsubmit="handleAuth(event, 'login')">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round">email</span>
+                            <input type="email" id="login-email" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round">lock</span>
+                            <input type="password" id="login-pass" placeholder="••••••••" required>
+                            <span class="material-icons-round toggle-pass"
+                                onclick="handleTogglePass('login-pass', this)">visibility</span>
+                        </div>
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me"><input type="checkbox" id="remember-me-chk"> Remember me</label>
+                        <a onclick="toggleAuth('forgot')" class="forgot-pass">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="login-btn">
+                        Login to Account <span class="material-icons-round">arrow_forward</span>
+                    </button>
+                </form>
+                <p class="footer-text">Don't have an account? <a onclick="toggleAuth('signup')">Sign Up Free</a></p>
+            </div>
+
+            <!-- SIGNUP VIEW -->
+            <div id="signup-view" class="hidden">
+                <h1>Join Lingofyra 🚀</h1>
+                <p class="subtitle">Start your journey to English mastery today.</p>
+
+                <form onsubmit="handleAuth(event, 'signup')">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round">person</span>
+                            <input type="text" id="signup-name" placeholder="John Doe" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round">email</span>
+                            <input type="email" id="signup-email" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Create Password</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round">lock</span>
+                            <input type="password" id="signup-pass" placeholder="••••••••" required>
+                            <span class="material-icons-round toggle-pass"
+                                onclick="handleTogglePass('signup-pass', this)">visibility</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="signup-btn"
+                        style="background: linear-gradient(to right, #ff79c6, #bd93f9);">
+                        Create Account <span class="material-icons-round">person_add</span>
+                    </button>
+                </form>
+                <p class="footer-text">Already have an account? <a onclick="toggleAuth('login')">Log In</a></p>
+            </div>
+
+            <!-- FORGOT PASSWORD VIEW -->
+            <div id="forgot-view" class="hidden">
+                <h1>Reset Password 🔐</h1>
+                <p class="subtitle">Enter your email and we'll send you a recovery link.</p>
+
+                <form onsubmit="handleAuth(event, 'forgot')">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="material-icons-round">email</span>
+                            <input type="email" id="forgot-email" placeholder="name@example.com" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-login" id="forgot-btn"
+                        style="background: linear-gradient(to right, #60efff, #00ff87); color: #000;">
+                        Send Recovery Link <span class="material-icons-round">send</span>
+                    </button>
+                </form>
+                <p class="footer-text">Suddenly remembered? <a onclick="toggleAuth('login')">Back to Login</a></p>
+            </div>
+
+            <div class="divider">OR CONTINUE WITH</div>
+
+            <div class="social-login">
+                <div class="social-btn" onclick="handleGoogleLogin()">
+                    <img src="https://www.gstatic.com/images/branding/product/1x/gsa_512dp.png" width="20"> Google
+                </div>
+                <div class="social-btn"><span class="material-icons-round">apple</span> Apple</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="theme-manager.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- REMEMBER ME: PRE-FILL LOGIC ---
+            const savedEmail = localStorage.getItem('lingofyra_saved_email');
+            const savedPass = localStorage.getItem('lingofyra_saved_pass');
+            if (savedEmail && savedPass) {
+                document.getElementById('login-email').value = savedEmail;
+                document.getElementById('login-pass').value = savedPass;
+                document.getElementById('remember-me-chk').checked = true;
+            }
+        });
+
+        function toggleAuth(mode) {
+            const loginView = document.getElementById('login-view');
+            const signupView = document.getElementById('signup-view');
+            const forgotView = document.getElementById('forgot-view');
+
+            [loginView, signupView, forgotView].forEach(v => v.classList.add('hidden'));
+
+            if (mode === 'signup') signupView.classList.remove('hidden');
+            else if (mode === 'forgot') forgotView.classList.remove('hidden');
+            else loginView.classList.remove('hidden');
+        }
+
+        function handleAuth(e, type) {
+            e.preventDefault();
+            const btnId = type === 'login' ? 'login-btn' : (type === 'signup' ? 'signup-btn' : 'forgot-btn');
+            const btn = document.getElementById(btnId);
+            const originalContent = btn.innerHTML;
+
+            btn.innerHTML = '<span class="material-icons-round" style="animation: spin 1s linear infinite;">sync</span> Processing...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                if (type === 'forgot') {
+                    const email = document.getElementById('forgot-email').value;
+                    btn.style.background = '#22c55e';
+                    btn.style.color = '#fff';
+                    btn.innerHTML = '<span class="material-icons-round">check_circle</span> Link Sent!';
+                    alert(`A recovery link has been sent to ${email} (Demo Mode)`);
+                    setTimeout(() => toggleAuth('login'), 1500);
+                    return;
+                }
+
+                let result;
+                if (type === 'login') {
+                    const email = document.getElementById('login-email').value;
+                    const pass = document.getElementById('login-pass').value;
+                    result = LingofyraDB.users.authenticate(email, pass);
+                } else {
+                    const name = document.getElementById('signup-name').value;
+                    const email = document.getElementById('signup-email').value;
+                    const pass = document.getElementById('signup-pass').value;
+                    result = LingofyraDB.users.register(email, pass, name);
+                }
+
+                if (result.success) {
+                    // --- REMEMBER ME: SAVE LOGIC ---
+                    const rememberChk = document.getElementById('remember-me-chk');
+                    if (type === 'login' && rememberChk && rememberChk.checked) {
+                        localStorage.setItem('lingofyra_saved_email', document.getElementById('login-email').value);
+                        localStorage.setItem('lingofyra_saved_pass', document.getElementById('login-pass').value);
+                    } else if (type === 'login') {
+                        localStorage.removeItem('lingofyra_saved_email');
+                        localStorage.removeItem('lingofyra_saved_pass');
+                    }
+
+                    localStorage.setItem('lingofyra_user', result.user.name);
+                    localStorage.setItem('lingofyra_user_id', result.user.id);
+
+                    btn.style.background = '#22c55e';
+                    btn.innerHTML = '<span class="material-icons-round">check_circle</span> Success!';
+
+                    setTimeout(() => {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        window.location.href = urlParams.get('redirect') || 'index.html';
+                    }, 800);
+                } else {
+                    alert(result.message);
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                }
+            }, 1000);
+        }
+
+        function handleGoogleLogin() {
+            // Logic to open Google's external sign-in page
+            window.location.href = "https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&response_type=token&scope=email%20profile";
+
+            // Note: Since this is a demo, it will lead to Google's standard login portal.
+            // In a production environment, you would replace YOUR_CLIENT_ID with your real Google Cloud ID.
+        }
+
+        function handleTogglePass(inputId, iconElement) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                iconElement.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                iconElement.textContent = 'visibility';
+            }
+        }
+    </script>
+</body>
+
+</html>

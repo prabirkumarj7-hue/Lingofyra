@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Explorer | Lingofyra</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .db-card {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+        }
+
+        .db-card h3 {
+            color: #6366f1;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .json-viewer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #818cf8;
+            overflow-x: auto;
+            max-height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .btn-refresh {
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.3s;
+        }
+
+        .btn-refresh:hover {
+            transform: scale(1.05);
+            background: #818cf8;
+        }
+
+        .stat-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            background: rgba(99, 102, 241, 0.2);
+            color: #818cf8;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .danger {
+            color: #f87171 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob"
+            style="background: rgba(99, 102, 241, 0.1); width: 600px; height: 600px; top: -10%; left: -10%;"></div>
+    </div>
+
+    <div class="admin-header">
+        <div>
+            <h1 style="font-family: 'Playfair Display', serif;">Database Explorer</h1>
+            <p style="color: var(--text-muted);">Real-time view of Lingofyra's local persistence layers.</p>
+        </div>
+        <div style="display: flex; gap: 15px;">
+            <button class="btn-refresh" onclick="location.reload()">
+                <span class="material-icons-round">sync</span> Refresh Data
+            </button>
+            <a href="index.html" class="btn-refresh" style="background: rgba(255,255,255,0.05); text-decoration: none;">
+                <span class="material-icons-round">home</span> Home
+            </a>
+        </div>
+    </div>
+
+    <div class="data-grid">
+        <!-- USER TABLES -->
+        <div class="db-card">
+            <h3><span class="material-icons-round">group</span> Registered Users</h3>
+            <div id="users-count" class="stat-badge">Loading...</div>
+            <pre id="users-json" class="json-viewer"></pre>
+            <div style="margin-top: 20px; text-align: right;">
+                <button onclick="clearData('users')"
+                    style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 0.8rem;">[ Clear
+                    Users Table ]</button>
+            </div>
+        </div>
+
+        <!-- PROGRESS TABLES -->
+        <div class="db-card">
+            <h3><span class="material-icons-round">trending_up</span> Learning Progress</h3>
+            <div id="progress-count" class="stat-badge">Loading...</div>
+            <pre id="progress-json" class="json-viewer"></pre>
+            <div style="margin-top: 20px; text-align: right;">
+                <button onclick="clearData('progress')"
+                    style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 0.8rem;">[ Clear
+                    Progress Table ]</button>
+            </div>
+        </div>
+
+        <!-- FEEDBACK TABLE -->
+        <div class="db-card">
+            <h3><span class="material-icons-round">rate_review</span> User Feedback</h3>
+            <div id="feedback-count" class="stat-badge">Loading...</div>
+            <pre id="feedback-json" class="json-viewer"></pre>
+            <div style="margin-top: 20px; text-align: right;">
+                <button onclick="clearData('feedback')"
+                    style="background: none; border: none; color: #f87171; cursor: pointer; font-size: 0.8rem;">[ Clear
+                    Feedback Table ]</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="db-card" style="margin-top: 30px; grid-column: span 2;">
+        <h3><span class="material-icons-round">terminal</span> Browser Developer Tool Method</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">
+            Since this is a client-side database, you can also view it directly in your browser's dedicated storage tab:
+        </p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+            <div
+                style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                <strong style="color: #fff;">1. Open DevTools</strong><br>
+                <span style="font-size: 0.8rem;">Press <code style="color: #ff79c6;">F12</code> or <code
+                        style="color: #ff79c6;">Ctrl+Shift+I</code></span>
+            </div>
+            <div
+                style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                <strong style="color: #fff;">2. Go to Application</strong><br>
+                <span style="font-size: 0.8rem;">Select the <b>'Application'</b> tab at the top.</span>
+            </div>
+            <div
+                style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                <strong style="color: #fff;">3. Local Storage</strong><br>
+                <span style="font-size: 0.8rem;">Expand <b>'Local Storage'</b> and click the site URL.</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Security Gatekeeper: Only 'Admin' can access this page
+        const activeUser = localStorage.getItem('lingofyra_user');
+        if (activeUser !== 'Admin') {
+            window.location.href = 'index.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const users = localStorage.getItem('lingofyra_db_users') || '[]';
+            const progress = localStorage.getItem('lingofyra_db_progress') || '{}';
+
+            const userArr = JSON.parse(users);
+            const progressObj = JSON.parse(progress);
+
+            document.getElementById('users-json').textContent = JSON.stringify(userArr, null, 4);
+            document.getElementById('users-count').textContent = `${userArr.length} Total Users`;
+
+            document.getElementById('progress-json').textContent = JSON.stringify(progressObj, null, 4);
+            document.getElementById('progress-count').textContent = `${Object.keys(progressObj).length} Active Learning Profiles`;
+
+            const feedback = localStorage.getItem('lingofyra_db_feedback') || '[]';
+            const feedbackArr = JSON.parse(feedback);
+            document.getElementById('feedback-json').textContent = JSON.stringify(feedbackArr, null, 4);
+            document.getElementById('feedback-count').textContent = `${feedbackArr.length} Total Feedback Entries`;
+        });
+
+        function clearData(type) {
+            if (confirm(`Are you sure you want to PERMANENTLY delete all ${type} data?`)) {
+                if (type === 'users') localStorage.removeItem('lingofyra_db_users');
+                else if (type === 'progress') localStorage.removeItem('lingofyra_db_progress');
+                else if (type === 'feedback') localStorage.removeItem('lingofyra_db_feedback');
+                location.reload();
+            }
+        }
+    </script>
+</body>
+
+</html>

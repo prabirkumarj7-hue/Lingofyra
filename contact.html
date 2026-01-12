@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Lingofyra</title>
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:wght@700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <style>
+        .contact-wrapper {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 50px;
+        }
+
+        @media (max-width: 850px) {
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .contact-info {
+            padding: 40px;
+            background: rgba(189, 147, 249, 0.1);
+            border-radius: 30px;
+            border: 1px solid rgba(189, 147, 249, 0.2);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-item span {
+            width: 50px;
+            height: 50px;
+            background: #ff79c6;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1e1e2e;
+        }
+
+        .contact-form {
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 40px;
+            padding: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            color: white;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-input:focus {
+            border-color: #ff79c6;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        textarea.form-input {
+            height: 150px;
+            resize: none;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(to right, #ff79c6, #bd93f9);
+            border: none;
+            border-radius: 15px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 20px rgba(255, 121, 198, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1" style="background: rgba(255, 121, 198, 0.2);"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div style="max-width: 1000px; margin: 50px auto; padding: 0 20px;">
+        <div class="back-nav" style="margin-bottom: 30px;">
+            <a href="index.html"
+                style="display: inline-flex; align-items: center; gap: 10px; text-decoration: none; background: #50fa7b; color: #1e1e2e; padding: 10px 20px; border-radius: 50px; font-weight: 600; transition: 0.3s;">
+                <span class="material-icons-round">arrow_back</span> Back to Home
+            </a>
+        </div>
+
+        <h1 style="font-size: 3.5rem; text-align: center; margin-bottom: 10px;">Get in Touch 📞</h1>
+        <p style="text-align: center; color: var(--text-muted); margin-bottom: 50px;">Have a question or feedback? We'd
+            love to hear from you.</p>
+
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h2 style="margin-bottom: 30px;">Contact Info</h2>
+
+                <div class="info-item">
+                    <span class="material-icons-round">email</span>
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Email Us</p>
+                        <p style="font-weight: 600;">hello@lingofyra.ai</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <span class="material-icons-round">local_phone</span>
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Call Us</p>
+                        <p style="font-weight: 600;">+1 (555) 123-4567</p>
+                    </div>
+                </div>
+
+                <div class="info-item"
+                    onclick="window.open('https://www.google.com/maps/search/Silicon+Valley,+CA', '_blank')"
+                    style="cursor: pointer; transition: 0.3s;"
+                    onmouseover="this.style.background='rgba(255,,255,255,0.05)'; this.style.transform='translateX(10px)'"
+                    onmouseout="this.style.background='transparent'; this.style.transform='translateX(0)'"
+                    title="Open in Google Maps">
+                    <span class="material-icons-round" style="background: #ff5555; color: white;">place</span>
+                    <div>
+                        <p style="color: var(--text-muted); font-size: 0.8rem;">Our HQ (Click to View Map)</p>
+                        <p style="font-weight: 600;">Silicon Valley, CA</p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px;">
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">Follow Our Journey</p>
+                    <div style="display: flex; gap: 15px;">
+                        <button class="btn-icon"><span class="material-icons-round">public</span></button>
+                        <button class="btn-icon"><span class="material-icons-round">chat</span></button>
+                        <button class="btn-icon"><span class="material-icons-round">alternate_email</span></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form
+                    onsubmit="event.preventDefault(); alert('Message sent successfully! Our team will contact you soon.'); this.reset();">
+                    <div class="input-group">
+                        <label>Your Name</label>
+                        <input type="text" class="form-input" placeholder="John Doe" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Email Address</label>
+                        <input type="email" class="form-input" placeholder="john@example.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Subject</label>
+                        <select class="form-input">
+                            <option>General Inquiry</option>
+                            <option>Technical Support</option>
+                            <option>Feature Request</option>
+                            <option>Partnership</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Your Message</label>
+                        <textarea class="form-input" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
